@@ -26,7 +26,7 @@ Now go belt your heart out~
 - Incredibly powerful, doing all of this with just a single x-vector and the source audio file. No need for any reference audio files; in fact you can just generate a random 192 dimensional vector and it will generate a result that sounds like a completely new timbre
 - Architecturally, only 335 out of all training samples in the 84,924 audio files large dataset was actually "singing with words", with an additional 3500 or so being scale runs from the VocalSet dataset. Singing with words is emergent and entirely learned by the model itself, learning singing despite mostly seeing SER data
 - Open-source like all my software has been for the past decade.
-- Make sure to read my technical report!! Trust me, it's a fun ride with twists and turns, ups and downs, and so much more.
+- Make sure to read the technical report!! Trust me, it's a fun ride with twists and turns, ups and downs, and so much more.
 
 Join the Discord [https://discord.gg/MJzxacYQ](https://discord.gg/MJzxacYQ)!!!!! It's less about anything and more about I wanna hear what amazing things you do with it.
 
