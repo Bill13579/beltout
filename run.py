@@ -474,4 +474,4 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
     save_button.click(fn=save_vector, inputs=[state], outputs=[saved_file_output])
     load_vector_file.upload(fn=load_vector, inputs=[state, load_vector_file], outputs=[state, vector_stats_display])
 
-demo.queue().launch(debug=True, share=True)
+demo.queue().launch(debug=True, share=False)
