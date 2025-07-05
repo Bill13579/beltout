@@ -1,0 +1,25 @@
+[package]
+name = "bake"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+glob = "0.3.2"
+rayon = "1.10"
+phf = { version = "0.12", features = ["macros"] }
+indicatif = { version = "0.17", features = ["rayon"] }
+rand = "0.9"
+
+# The core Arrow implementation for in-memory data.
+arrow = "55.2"
+# Reader/writer for parquet files.
+parquet = { version = "55.2", features = ["arrow", "async"] }
+
+# Encoding and decoding wavs.
+hound = "3.5.1"
+symphonia = { version = "0.5.4", features = ["all-codecs", "all-formats"] }
+
+# Audio resampling.
+rubato = "0.16"
+
+anyhow = "1.0"
