@@ -8,7 +8,7 @@ They say timbre is the only thing you can't change about your voice... well, not
 
 **BeltOut** is **the world's first *pitch-perfect*, zero-shot, voice-to-voice timbre transfer model with *a generalized understanding of timbre and how it affects delivery of performances*.** It is based on ChatterboxVC.
 
-It is explicitly different from existing voice-to-voice Voice Cloning models, in the way that it is not just entirely unconcerned with modifying anything other than timbre, but is even more importantly *entirely unconcerned with the specific timbre to map into* while still maintaining that separation of timbre and all other controllable performance details.
+It is explicitly different from existing voice-to-voice Voice Cloning models, in the way that it is not just entirely unconcerned with modifying anything other than timbre, but is even more importantly *entirely unconcerned with the specific timbre to map into* while still maintaining that separation of timbre and all other controllable performance details. The goal of the model is to learn how differences in vocal cords and head shape and all of those factors that contribute to the immutable timbre of a voice affects delivery of vocal intent *in general*, so that it can guess how the same performance will sound out of such a different base physical timbre.
 
 This model represents timbre as just a list of 192 numbers, the **x-vector**. Taking this in along with your audio recording, the model creates a new recording, guessing how the same vocal sounds and intended effect would have sounded coming out of a different vocal cord.
 
@@ -26,7 +26,7 @@ Now go belt your heart out~
 - Incredibly powerful, doing all of this with just a single x-vector and the source audio file. No need for any reference audio files; in fact you can just generate a random 192 dimensional vector and it will generate a result that sounds like a completely new timbre
 - Architecturally, only 335 out of all training samples in the 84,924 audio files large dataset was actually "singing with words", with an additional 3500 or so being scale runs from the VocalSet dataset. Singing with words is emergent and entirely learned by the model itself, learning singing despite mostly seeing SER data
 - Open-source like all my software has been for the past decade.
-- Make sure to read the technical report!! Trust me, it's a fun ride with twists and turns, ups and downs, and so much more.
+- Make sure to read the [technical report](./TECHNICAL_REPORT.md)!! Trust me, it's a fun ride with twists and turns, ups and downs, and so much more.
 
 Join the Discord [https://discord.gg/MJzxacYQ](https://discord.gg/MJzxacYQ)!!!!! It's less about anything and more about I wanna hear what amazing things you do with it.
 
@@ -78,7 +78,7 @@ To start the Gradio interface.
 # Supported Lanugage
 The model was trained on a variety of languages, and not just speech. Shouts, belting, rasping, head voice, ...
 
-As a baseline, I have tested Japanese, and it worked pretty damn well.
+As a baseline, I have tested Japanese, and it worked pretty well.
 
 In general, the aim with this model was to get it to learn how different sounds created by human voices would've sounded produced out of a different physical vocal cord. This was done using various techniques while training, detailed in the technical sections. Thus, the supported types of vocalizations is vastly higher than TTS models or even other voice-to-voice models.
 
