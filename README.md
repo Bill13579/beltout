@@ -116,5 +116,5 @@ And this just proves more that people doing training locally isn't just feasible
 
 So please, train a model, share it with all of us. Share it on as many places as you possibly can so that it will be there always. This is how local AI goes round, right? I'll be waiting, always, and hungry for more.
 
-- Shiko
+\- Shiko
 
