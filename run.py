@@ -321,7 +321,7 @@ def synth_style_blender(state, *all_inputs, progress=gr.Progress()):
                     partial_vectors.append(get_x_vector_from_wav_chunk(last_chunk))
         else:
             progress(0, desc=f"Processing {task['label']} (full clip)")
-            partial_vectors.append(get_x_vector_from_wav_chunk(wav[:model.DEC_COND_LEN]))
+            partial_vectors.append(get_x_vector_from_wav_chunk(wav))
             
         if partial_vectors:
             avg_vector = np.mean(partial_vectors, axis=0)
