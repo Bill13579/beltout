@@ -32,9 +32,11 @@ Join the Discord [https://discord.gg/MJzxacYQ](https://discord.gg/MJzxacYQ)!!!!!
 
 # Examples and Tips
 
-`sd-01*.wav` on the repo, [https://youtu.be/5EwvLR8XOts](https://youtu.be/5EwvLR8XOts) / [https://youtu.be/wNTfxwtg3pU](https://youtu.be/wNTfxwtg3pU)
+`sd-01*.wav` on the repo, [https://youtu.be/5EwvLR8XOts](https://youtu.be/5EwvLR8XOts) (output) / [https://youtu.be/wNTfxwtg3pU](https://youtu.be/wNTfxwtg3pU) (input, yours truly)
 
-`sd-02*.wav` on the repo, [https://youtu.be/KodmJ2HkWeg](https://youtu.be/KodmJ2HkWeg) / [https://youtu.be/H9xkWPKtVN0](https://youtu.be/H9xkWPKtVN0)
+`sd-02*.wav` on the repo, [https://youtu.be/KodmJ2HkWeg](https://youtu.be/KodmJ2HkWeg) (output) / [https://youtu.be/H9xkWPKtVN0](https://youtu.be/H9xkWPKtVN0) (input)
+
+**[NEW]** [https://youtu.be/LccqjwzLh0Y](https://youtu.be/LccqjwzLh0Y) (output) / [https://youtu.be/k8PwwSJtayE](https://youtu.be/k8PwwSJtayE) (input)
 
 Note that a very important thing to know about this model is that it is a *vocal timbre* transfer model. The details on how this is the case is inside the technical reports, but the result is that, unlike voice-to-voice models that try to help you out by fixing performance details that might be hard to do in the target timbre, and thus simultaneously either destroy certain parts of the original performance or make it "better", so to say, but removing control from you, this model will not do any of the heavy-lifting of making the performance match that timbre for you!!
 
