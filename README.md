@@ -1,10 +1,14 @@
+---
+license: mit
+---
+
 # BeltOut
 
 They say timbre is the only thing you can't change about your voice... well, not anymore.
 
 **BeltOut** is **the world's first *pitch-perfect*, zero-shot, voice-to-voice timbre transfer model with *a generalized understanding of timbre and how it affects delivery of performances*.** It is based on ChatterboxVC.
 
-It is explicitly different from existing voice-to-voice Voice Cloning models, in the way that it is not just entirely unconcerned with modifying anything other than timbre, but is even more importantly *entirely unconcerned with the specific timbre to map into*.
+It is explicitly different from existing voice-to-voice Voice Cloning models, in the way that it is not just entirely unconcerned with modifying anything other than timbre, but is even more importantly *entirely unconcerned with the specific timbre to map into* while still maintaining that separation of timbre and all other controllable performance details.
 
 This model represents timbre as just a list of 192 numbers, the **x-vector**. Taking this in along with your audio recording, the model creates a new recording, guessing how the same vocal sounds and intended effect would have sounded coming out of a different vocal cord.
 
@@ -102,7 +106,7 @@ My personal socials: [Github](https://github.com/Bill13579), [Huggingface](https
 
 # Closing
 
-This ain't the closing, you kidding!?? I'm so incredibly excited to finally get this out I'm going to be around for days weeks months hearing people experience the joy of getting to suddenly play around with a infinite amount of new timbres from the one they had up, and hearing their performances.
+This ain't the closing, you kidding!?? I'm so incredibly excited to finally get this out I'm going to be around for days weeks months hearing people experience the joy of getting to suddenly play around with a infinite amount of new timbres from the one they had up, and hearing their performances. I know I felt that way...
 
 Yes, I'm sure that a new model will come soon to displace all this, but, speaking of which...
 
