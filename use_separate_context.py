@@ -1,4 +1,4 @@
-# A version of the run script which allows for extracting prosodic/phonetic context and pitch context from two separate audio files of the same length.
+# A version of the run script which allows for extracting prosodic/phonetic context and pitch context from two separate audio files of the same length (Experimental).
 
 import gradio as gr
 import numpy as np
