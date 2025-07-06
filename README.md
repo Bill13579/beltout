@@ -32,6 +32,8 @@ Join the Discord [https://discord.gg/MJzxacYQ](https://discord.gg/MJzxacYQ)!!!!!
 
 # Examples and Tips
 
+The x-vectors, and the source audio recordings are both available on the repositories under the `examples` folder for reproduction.
+
 `sd-01*.wav` on the repo, [https://youtu.be/5EwvLR8XOts](https://youtu.be/5EwvLR8XOts) (output) / [https://youtu.be/wNTfxwtg3pU](https://youtu.be/wNTfxwtg3pU) (input, yours truly)
 
 `sd-02*.wav` on the repo, [https://youtu.be/KodmJ2HkWeg](https://youtu.be/KodmJ2HkWeg) (output) / [https://youtu.be/H9xkWPKtVN0](https://youtu.be/H9xkWPKtVN0) (input)
