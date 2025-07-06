@@ -20,7 +20,7 @@ What you cannot do, no matter what, though, is change your ***timbre***. **Timbr
 
 It can't be changed because it is *dictated by your head shape, throat shape, shape of your nose, etc.* With a bunch of training you can alter a lot of qualities about your voice, but someone with a mid-heavy face might always be louder and have a distinct "shouty" quality to their voice, while others might always have a rumbling low tone.
 
-The model's job, and its *only* job, is to change *this* part. *Everything else is left to the original performance.* This is different from most models you might have come across before, where the model will liberally change everything about an original performance, subtly adding an intonation here, subtly increasing the sharpness of a word there, to fit the timbre. This model does not do that, disciplining itself to strictly change only the timbre part.
+The model's job, and its *only* job, is to change *this* part. *Everything else is left to the original performance.* This is different from most models you might have come across before, where the model is allowed to freely change everything about an original performance, subtly adding an intonation here, subtly increasing the sharpness of a word there, to fit the timbre. This model does not do that, disciplining itself to strictly change only the timbre part.
 
 So the way the model operates, is that it takes 192 numbers representing a unique voice/timbre, and also a random voice recording, and produces a new voice recording with that timbre applied, and *only* that timbre applied, leaving the rest of the performance entirely to the user.
 
