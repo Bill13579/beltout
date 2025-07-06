@@ -85,7 +85,19 @@ Installation is simple, but should be done in a clean anaconda environment.
 # conda create -n beltout python=3.12
 # conda activate beltout
 
+# IMPORTANT: Tell Git to not download any checkpoints by setting GIT_LFS_SKIP_SMUDGE to 1! The commands for that are down below and different on each platform.
+
+# PowerShell (Windows)
+$Env:GIT_LFS_SKIP_SMUDGE="1"
 git clone https://github.com/Bill13579/beltout.git
+
+# CMD (Windows)
+set GIT_LFS_SKIP_SMUDGE=1
+git clone https://github.com/Bill13579/beltout.git
+
+# Unix
+GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/Bill13579/beltout.git
+
 cd beltout
 pip install -e .
 ```
