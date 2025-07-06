@@ -20,13 +20,13 @@ What you cannot do, no matter what, though, is change your ***timbre***. **Timbr
 
 It can't be changed because it is *dictated by your head shape, throat shape, shape of your nose, etc.* With a bunch of training you can alter a lot of qualities about your voice, but someone with a mid-heavy face might always be louder and have a distinct "shouty" quality to their voice, while others might always have a rumbling low tone.
 
-The model's job, and its *only* job, is to change *this* part. *Everything else is left to the original performance.* This is different from most models you might have come across before, where the model is allowed to freely change everything about an original performance, subtly adding an intonation here, subtly increasing the sharpness of a word there, to fit the timbre. This model does not do that, disciplining itself to strictly change only the timbre part.
+The model's job, and its *only* job, is to change *this* part. *Everything else is left to the original performance.* This is different from most models you might have come across before, where the model is allowed to freely change everything about an original performance, subtly adding an intonation here, subtly increasing the sharpness of a word there, subtly sneak in a breath here, to fit the timbre. This model does not do that, disciplining itself to strictly change only the timbre part.
 
 So the way the model operates, is that it takes 192 numbers representing a unique voice/timbre, and also a random voice recording, and produces a new voice recording with that timbre applied, and *only* that timbre applied, leaving the rest of the performance entirely to the user.
 
 **Now for the original, slightly more technical explanation of the model:**
 
-It is explicitly different from existing voice-to-voice Voice Cloning models, in the way that it is not just entirely unconcerned with modifying anything other than timbre, but is even more importantly *entirely unconcerned with the specific timbre to map into* while still maintaining that separation of timbre and all other controllable performance details. The goal of the model is to learn how differences in vocal cords and head shape and all of those factors that contribute to the immutable timbre of a voice affects delivery of vocal intent *in general*, so that it can guess how the same performance will sound out of such a different base physical timbre.
+It is explicitly different from existing voice-to-voice Voice Cloning models, in the way that it is not just entirely unconcerned with modifying anything other than timbre, but is even more importantly *entirely unconcerned with the specific timbre to map into* while still maintaining that separation between timbre and all other controllable performance details. The goal of the model is to learn how differences in vocal cords and head shape and all of those factors that contribute to the immutable timbre of a voice affects delivery of vocal intent *in general*, so that it can guess how the same performance will sound out of such a different base physical timbre.
 
 This model represents timbre as just a list of 192 numbers, the **x-vector**. Taking this in along with your audio recording, the model creates a new recording, guessing how the same vocal sounds and intended effect would have sounded coming out of a different vocal cord.
 
@@ -58,7 +58,7 @@ The x-vectors, and the source audio recordings are both available on the reposit
 
 `sd-02*.wav` on the repo, [https://youtu.be/KodmJ2HkWeg](https://youtu.be/KodmJ2HkWeg) (output) / [https://youtu.be/H9xkWPKtVN0](https://youtu.be/H9xkWPKtVN0) (input)
 
-**[NEW]** [https://youtu.be/E4r2vdrCXME](https://youtu.be/E4r2vdrCXME) (output) / [https://youtu.be/9mmmFv7H8AU](https://youtu.be/9mmmFv7H8AU) (input) (Note that although the input *sounds* like it was recorded willy-nilly, this input is actually after **more than a dozen takes**. The input is not random, if you listen closely you'll realize that if you do not look at the timbre, the rhythm, the pitch contour, and the intonations are all carefully controlled. The laid back nature of the source recording is intentional as well. Thus, only because *everything other than timbre is managed carefully*, when the model applies the timbre on top, it can sound realistic.)
+**[NEW]2** [https://youtu.be/E4r2vdrCXME](https://youtu.be/E4r2vdrCXME) (output) / [https://youtu.be/9mmmFv7H8AU](https://youtu.be/9mmmFv7H8AU) (input) (Note that although the input *sounds* like it was recorded willy-nilly, this input is actually after **more than a dozen takes**. The input is not random, if you listen closely you'll realize that if you do not look at the timbre, the rhythm, the pitch contour, and the intonations are all carefully controlled. The laid back nature of the source recording is intentional as well. Thus, only because *everything other than timbre is managed carefully*, when the model applies the timbre on top, it can sound realistic.)
 
 Note that a very important thing to know about this model is that it is a *vocal timbre* transfer model. The details on how this is the case is inside the technical reports, but the result is that, unlike voice-to-voice models that try to help you out by fixing performance details that might be hard to do in the target timbre, and thus simultaneously either destroy certain parts of the original performance or make it "better", so to say, but removing control from you, this model will not do any of the heavy-lifting of making the performance match that timbre for you!! In fact, it was **actively designed to restrain itself from doing so, since the model might otherwise find that changing performance details is the easier to way move towards its learning objective.**
 
@@ -74,9 +74,11 @@ Then, listen to the result from `1:30` to `2:00`. It is a marked improvement.
 
 Sometimes however, with certain timbres like Falco here, the model still doesn't get it exactly right. I've decided to include such an example instead of sweeping it under the rug. In this case, I've found that a trick can be utilized to help the model sort of "exaggerate" its application of the x-vector in order to have it more confidently apply the new timbre and its learned nuances. It is very simple: we simply make the magnitude of the x-vector bigger. In this case by 2 times. You can imagine that doubling it will cause the network to essentially double whatever processing it used to do, thereby making deeper changes. There is a small drop in fidelity, but the increase in the final performance is well worth it. Listen from `2:00` to `2:30`.
 
-**[EDIT] You can do this trick in the Gradio interface. Simply set the `Weight` slider to beyond 1.0. In my experience, values up to 2.5 can be interesting for certain voice vectors. In fact, for some voices this is necessary!** For example, the third example of Johnny Silverhand from above has a weight of 1.7 applied to it (the `npy` file in the repository already has this weighting factor baked into it, so if you are recreating the example output, you should keep the weight at 1.0, but it is important to keep this in mind while creating your own x-vectors).
+**[EDIT] You can do this trick in the Gradio interface. Simply set the `Weight` slider to beyond 1.0. In my experience, values up to 2.5 can be interesting for certain voice vectors. In fact, for some voices this is necessary!** For example, the third example of Johnny Silverhand from above has a weight of 1.7 applied to it after getting the regular vector from analyzing Phantom Liberty voice lines (the `npy` file in the repository already has this weighting factor baked into it, so if you are recreating the example output, you should keep the weight at 1.0, but it is important to keep this in mind while creating your own x-vectors).
 
-Another tip is that in the Gradio interface, you can calculate a statistical average of the x-vectors of massive sample audio files; make sure to utilize it, and play around with the Chunk Size as well. I've found that the larger the chunk you can fit into VRAM, the better the resulting vectors, so a chunk size of 40s sounds better than 10s for me; however, this is subjective and your mileage may vary. Trust your ears.
+**[EDIT]** The degradation in quality due to such weight values vary wildly based on the x-vector in question, and for some it is not present, like in the aforementioned example. You can try a couple values out and see which values gives you the most emotive performance. When this happens it is an indicator that the model was perhaps a bit too conservative in its guess, and we can increse the vector magnitude manually to give it the push to make deeper timbre-specific choices.
+
+Another tip is that in the Gradio interface, you can calculate a statistical average of the x-vectors of massive sample audio files; make sure to utilize it, and play around with the Chunk Size as well. I've found that the larger the chunk you can fit into VRAM, the better the resulting vectors, so a chunk size of 40s sounds better than 10s for me; however, this is subjective and your mileage may vary. Trust your ears!
 
 # Installation
 
@@ -138,13 +140,13 @@ It's quite the something and ended up being very long, but it's a great read I t
 
 There's a [Discord](https://discord.gg/MJzxacYQ) where people gather; hop on, share your singing or voice acting or machine learning or anything! It might not be exactly what you expect, but I have a feeling you'll like it. ;)
 
-My personal socials: [Github](https://github.com/Bill13579), [Huggingface](https://huggingface.co/Bill13579), [LinkedIn](https://www.linkedin.com/in/shiko-kudo-a44b86339/), [BlueSky](https://bsky.app/profile/kudoshiko.bsky.social), [X/Twitter](https://x.com/kudoshiko), []()
+My personal socials: [Github](https://github.com/Bill13579), [Huggingface](https://huggingface.co/Bill13579), [LinkedIn](https://www.linkedin.com/in/shiko-kudo-a44b86339/), [BlueSky](https://bsky.app/profile/kudoshiko.bsky.social), [X/Twitter](https://x.com/kudoshiko)
 
 # Closing
 
 This ain't the closing, you kidding!?? I'm so incredibly excited to finally get this out I'm going to be around for days weeks months hearing people experience the joy of getting to suddenly play around with a infinite amount of new timbres from the one they had up, and hearing their performances. I know I felt that way...
 
-Yes, I'm sure that a new model will come soon to displace all this, but, speaking of which...
+Yes, I'm sure that a new model will come eventually to displace all this, but, speaking of which...
 
 # Call to train
 
