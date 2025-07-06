@@ -2,11 +2,29 @@
 license: mit
 ---
 
+***For everyone returning to this repository for a second time, I've updated the Tips and Examples section with important information on usage, as well as another example. Please take a look at them for me! They are marked in square brackets with [EDIT] and [NEW] so that you can quickly pinpoint and read the new parts.***
+
 # BeltOut
 
 They say timbre is the only thing you can't change about your voice... well, not anymore.
 
 **BeltOut** is **the world's first *pitch-perfect*, zero-shot, voice-to-voice timbre transfer model with *a generalized understanding of timbre and how it affects delivery of performances*.** It is based on ChatterboxVC.
+
+**To first give an overhead view of what this model does:**
+
+First, it is important to establish a key idea about why your voice sounds the way it does. There are two parts to voice, the part you *can* control, and the part you *can't*.
+
+For example, I can play around with my voice. I can make it sound *deeper*, more resonant by speaking from my chest, make it sound boomy and *lower*. I can also make the pitch go a lot higher and tighten my throat to make it sound sharper, more *piercing* like a cartoon character. With training, you can do a lot with your voice.
+
+What you cannot do, no matter what, though, is change your ***timbre***. **Timbre** is the reason why different musical instruments playing the same note sounds different, and you can tell if it's coming from a violin or a flute or a saxophone. It is *also* why we can identify each other's voices.
+
+It can't be changed because it is *dictated by your head shape, throat shape, shape of your nose, etc.* With a bunch of training you can alter a lot of qualities about your voice, but someone with a mid-heavy face might always be louder and have a distinct "shouty" quality to their voice, while others might always have a rumbling low tone.
+
+The model's job, and its *only* job, is to change *this* part. *Everything else is left to the original performance.* This is different from most models you might have come across before, where the model will liberally change everything about an original performance, subtly adding an intonation here, subtly increasing the sharpness of a word there, to fit the timbre. This model does not do that, disciplining itself to strictly change only the timbre part.
+
+So the way the model operates, is that it takes 192 numbers representing a unique voice/timbre, and also a random voice recording, and produces a new voice recording with that timbre applied, and *only* that timbre applied, leaving the rest of the performance entirely to the user.
+
+**Now for the original, slightly more technical explanation of the model:**
 
 It is explicitly different from existing voice-to-voice Voice Cloning models, in the way that it is not just entirely unconcerned with modifying anything other than timbre, but is even more importantly *entirely unconcerned with the specific timbre to map into* while still maintaining that separation of timbre and all other controllable performance details. The goal of the model is to learn how differences in vocal cords and head shape and all of those factors that contribute to the immutable timbre of a voice affects delivery of vocal intent *in general*, so that it can guess how the same performance will sound out of such a different base physical timbre.
 
@@ -16,7 +34,7 @@ In essence, instead of the usual `Performance -> Timbre Stripper -> Timbre "Pain
 
 This allows for unprecedented control in singing, because as they say, timbre is the only thing you truly cannot hope to change without literally changing how your head is shaped; everything else can be controlled by you with practice, and this model gives you the freedom to do so while also giving you a way to change that last, immutable part.
 
-Now go belt your heart out~
+**Now go belt your heart out~**
 
 # Some Points
 - Small, running comfortably on my 6gb laptop 3060
