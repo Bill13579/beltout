@@ -10,7 +10,7 @@ They say timbre is the only thing you can't change about your voice... well, not
 
 **BeltOut** is **the world's first *pitch-perfect*, zero-shot, voice-to-voice timbre transfer model with *a generalized understanding of timbre and how it affects delivery of performances*.** It is based on ChatterboxVC.
 
-**To first give an overhead view of what this model does:**
+**[NEW] To first give an overhead view of what this model does:**
 
 First, it is important to establish a key idea about why your voice sounds the way it does. There are two parts to voice, the part you *can* control, and the part you *can't*.
 
