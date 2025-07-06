@@ -40,6 +40,8 @@ The x-vectors, and the source audio recordings are both available on the reposit
 
 **[NEW]** [https://youtu.be/LccqjwzLh0Y](https://youtu.be/LccqjwzLh0Y) (output) / [https://youtu.be/k8PwwSJtayE](https://youtu.be/k8PwwSJtayE) (input)
 
+**[NEW]** [https://youtu.be/E4r2vdrCXME](https://youtu.be/E4r2vdrCXME) (output) / [https://youtu.be/9mmmFv7H8AU](https://youtu.be/9mmmFv7H8AU) (input) (Note that although the input *sounds* like it was recorded willy-nilly, this input is actually after **more than a dozen takes**. The input is not random, if you listen closely you'll realize that if you do not look at the timbre, the rhythm, the pitch contour, and the intonations are all carefully controlled. The laid back nature of the source recording is intentional as well. Thus, only because *everything other than timbre is managed carefully*, when the model applies the timbre on top, it can sound realistic.)
+
 Note that a very important thing to know about this model is that it is a *vocal timbre* transfer model. The details on how this is the case is inside the technical reports, but the result is that, unlike voice-to-voice models that try to help you out by fixing performance details that might be hard to do in the target timbre, and thus simultaneously either destroy certain parts of the original performance or make it "better", so to say, but removing control from you, this model will not do any of the heavy-lifting of making the performance match that timbre for you!!
 
 You'll need to do that.
