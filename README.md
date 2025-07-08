@@ -105,7 +105,7 @@ pip install -e .
 ```
 Versions of dependencies are pinned in `pyproject.toml` to ensure consistency. You can modify the code or dependencies in this installation mode, unlike with the pip installation.
 
-Once that is done, go to Huggingface to download a checkpoint for each model and place it inside `checkpoints`. After which you can do:
+Once that is done, go to [the repo on Huggingface](https://huggingface.co/Bill13579/beltout/tree/main/checkpoints) to download a checkpoint for each model and place it inside `checkpoints`. After which you can do:
 
 ```shell
 python run.py
