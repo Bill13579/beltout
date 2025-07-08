@@ -253,12 +253,12 @@ def main():
     print(f"Model loaded on {DEVICE}.")
 
     # --- Optimizer and Scheduler ---
-    params_to_train = list(model.s3gen.flow.decoder.parameters()) + list(model.pitchmvmt.parameters())
+    params_to_train = list(model.decoder.parameters()) + list(model.pitchmvmt.parameters())
     optimizer = AdamW(params_to_train, lr=LEARNING_RATE)
     scheduler = ExponentialLR(optimizer, gamma=0.9999) # Slightly slower decay
     
     # --- Load Checkpoint if Available ---
-    start_step, last_loss = load_latest_checkpoint(CHECKPOINT_DIR, model.s3gen.flow.decoder, model.pitchmvmt, optimizer, scheduler)
+    start_step, last_loss = load_latest_checkpoint(CHECKPOINT_DIR, model.decoder, model.pitchmvmt, optimizer, scheduler)
 
     # --- Setup Data Pipeline ---
     # data_processor = AudioDataProcessor(segment_len_s=4)
@@ -315,17 +315,17 @@ def main():
         
         # --- DATA PREPARATION ---
         with torch.no_grad():
-            gt_mel = model.s3gen.mel_extractor(waveform_24k_batch)
+            gt_mel = model.mel_extractor(waveform_24k_batch)
             mel_len = gt_mel.shape[2]
 
             waveform_16k_batch = resampler_16k(waveform_24k_batch)
-            s3_tokens, _ = model.s3gen.tokenizer(waveform_16k_batch)
+            s3_tokens, _ = model.tokenizer(waveform_16k_batch)
             
             x_vectors = torch.cat([
-                model.s3gen.embed_ref_x_vector(wf_24k.unsqueeze(0), 24000, device=DEVICE)
+                model.embed_ref_x_vector(wf_24k.unsqueeze(0), 24000, device=DEVICE)
                 for wf_24k in waveform_24k_batch
             ], dim=0)
-            speaker_embedding = model.s3gen.flow.spk_embed_affine_layer(x_vectors)
+            speaker_embedding = model.flow.spk_embed_affine_layer(x_vectors)
 
             # Calculate MEL and CREPE interactions.
             mel_frames_per_second = 50 # mel spectrogram settings: sampling_rate=24000, hop_size=480
@@ -362,10 +362,10 @@ def main():
             mel_lengths = torch.tensor([mel_len] * gt_mel.shape[0], device=DEVICE)
             mask = (torch.arange(mel_len, device=DEVICE).unsqueeze(0) < mel_lengths.unsqueeze(1)).unsqueeze(1)
 
-            token_embeddings = model.s3gen.flow.input_embedding(s3_tokens)
+            token_embeddings = model.flow.input_embedding(s3_tokens)
             token_len = torch.tensor([token_embeddings.shape[1]] * token_embeddings.shape[0], device=DEVICE)
-            h, _ = model.s3gen.flow.encoder(token_embeddings, token_len)
-            encoded_tokens = model.s3gen.flow.encoder_proj(h)
+            h, _ = model.encoder(token_embeddings, token_len)
+            encoded_tokens = model.flow.encoder_proj(h)
             mu = encoded_tokens.transpose(1, 2)
 
             B = crepe_embedding.shape[0]
@@ -397,7 +397,7 @@ def main():
         final_pitch_mvmt_encode = pitch_mvmt_encode.masked_fill(expanded_mask, 0.0)
         ### ---------------------------------------------------- ###
 
-        loss, _ = model.s3gen.flow.decoder.compute_loss(
+        loss, _ = model.decoder.compute_loss(
             x1=gt_mel, mask=mask, mu=mu,
             spks=speaker_embedding, cond=final_pitch_mvmt_encode
         )
@@ -413,7 +413,7 @@ def main():
         training_progress.update(1)
 
         if (step + 1) % SAVE_EVERY_N_STEPS == 0:
-            save_checkpoint(step, current_loss, model.s3gen.flow.decoder, model.pitchmvmt, optimizer, scheduler, CHECKPOINT_DIR)
+            save_checkpoint(step, current_loss, model.decoder, model.pitchmvmt, optimizer, scheduler, CHECKPOINT_DIR)
 
         step += 1
             
@@ -424,7 +424,7 @@ def main():
         print("Performing final save...")
         # Get the very last loss before saving
         final_loss = loss.item() if 'loss' in locals() else last_loss
-        save_checkpoint(step - 1, final_loss, model.s3gen.flow.decoder, model.pitchmvmt, optimizer, scheduler, CHECKPOINT_DIR)
+        save_checkpoint(step - 1, final_loss, model.decoder, model.pitchmvmt, optimizer, scheduler, CHECKPOINT_DIR)
 
     print("Training finished.")
 

@@ -1,4 +1,7 @@
-from ..utils import AttrDict
+class AttrDict(dict):
+    def __init__(self, *args, **kwargs):
+        super(AttrDict, self).__init__(*args, **kwargs)
+        self.__dict__ = self
 
 CFM_PARAMS = AttrDict({
     "sigma_min": 1e-06,

@@ -6,7 +6,6 @@ import librosa
 import time
 import os
 from beltout import BeltOutTTM
-from beltout.models.s3tokenizer.s3tokenizer import S3_SR
 import torchaudio
 import torchcrepe
 import soundfile
@@ -114,7 +113,7 @@ def get_x_vector_from_wav_chunk(wav_chunk):
     """Helper to get a single x-vector from a raw audio chunk."""
     ref_tensor = torch.from_numpy(wav_chunk).float().to(device).unsqueeze(0)
     with torch.inference_mode():
-        return model.s3gen.embed_ref_x_vector(ref_tensor, model.sr, device=device).detach().cpu().numpy().flatten()
+        return model.embed_ref_x_vector(ref_tensor, model.sr, device=device).detach().cpu().numpy().flatten()
 
 def smart_split(wav, sr, min_chunk_duration_s=40.0, top_db=35):
     split_indices = librosa.effects.split(wav, top_db=top_db, frame_length=1024, hop_length=256)
@@ -189,20 +188,20 @@ def run_conversion(state, mode, progress=gr.Progress(track_tqdm=True)):
         with torch.inference_mode():
             # --- STEP 1: PREPARE ALL RAW INPUTS FIRST ---
             waveform_24k_tensor = torch.from_numpy(wav_chunk).float().to(device).unsqueeze(0)
-            waveform_16k_tensor = torchaudio.transforms.Resample(model.sr, S3_SR).to(device)(waveform_24k_tensor)
+            waveform_16k_tensor = torchaudio.transforms.Resample(model.sr, 16000).to(device)(waveform_24k_tensor)
             
             # Get S3 tokens and speaker embedding
-            s3_tokens, _ = model.s3gen.tokenizer(waveform_16k_tensor)
+            s3_tokens, _ = model.tokenizer(waveform_16k_tensor)
             x_vector_tensor = torch.from_numpy(active_x_vector).float().to(device).unsqueeze(0)
-            speaker_embedding = model.s3gen.flow.spk_embed_affine_layer(x_vector_tensor)
+            speaker_embedding = model.flow.spk_embed_affine_layer(x_vector_tensor)
             
             # --- STEP 3: PREPARE CONDITIONING SIGNALS TO MATCH THE TARGET MEL LENGTH ---
             
             # 3a. Prepare token embeddings ('mu')
-            token_embeddings = model.s3gen.flow.input_embedding(s3_tokens)
+            token_embeddings = model.flow.input_embedding(s3_tokens)
             token_len = torch.tensor([token_embeddings.shape[1]], device=device)
-            h, _ = model.s3gen.flow.encoder(token_embeddings, token_len)
-            encoded_tokens = model.s3gen.flow.encoder_proj(h)
+            h, _ = model.encoder(token_embeddings, token_len)
+            encoded_tokens = model.flow.encoder_proj(h)
             
             mu = encoded_tokens.transpose(1, 2)
             mel_len = mu.shape[2]
@@ -236,12 +235,12 @@ def run_conversion(state, mode, progress=gr.Progress(track_tqdm=True)):
 
             # --- STEP 4: GENERATE THE MEL-SPECTROGRAM ---
             mask = torch.ones(1, 1, mu.shape[2], device=device, dtype=torch.bool)
-            output_mels, _ = model.s3gen.flow.decoder(
+            output_mels, _ = model.decoder(
                 mu=mu, mask=mask, spks=speaker_embedding, cond=pitch_mvmt_encode, n_timesteps=10
             )
             
             # --- STEP 5: VOCODE ---
-            output_wav_tensor, _ = model.s3gen.mel2wav.inference(speech_feat=output_mels)
+            output_wav_tensor, _ = model.mel2wav.inference(speech_feat=output_mels)
             return output_wav_tensor.squeeze(0).cpu().numpy()
 
     # --- MODE SWITCH LOGIC ---
