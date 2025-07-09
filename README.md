@@ -51,7 +51,7 @@ Join the Discord [https://discord.gg/MJzxacYQ](https://discord.gg/MJzxacYQ)!!!!!
 # Examples and Tips
 
 
-There are two modes during generation, "**High Quality (Single Pass)**" and "**Fast Preview (Streaming)**". The Single Pass option processes the entire file in one go, but is constrained to recordings of around 1:20 in length. The Streaming option processes the file in chunks instead, but can introduce discontinuities between those chunks, as not every single part of the original model was built with streaming in mind, and we carry that over here. The names are thus a suggestion for a pipeline during usage of doing a "quick preview" of the result using the streaming option, while doing the final high quality conversion using the single pass option.
+**[EDIT]** There are two modes during generation, "**High Quality (Single Pass)**" and "**Fast Preview (Streaming)**". The Single Pass option processes the entire file in one go, but is constrained to recordings of around 1:20 in length. The Streaming option processes the file in chunks instead that are split by silence, but can introduce discontinuities between those chunks, as not every single part of the original model was built with streaming in mind, and we carry that over here. The names are thus a suggestion for a pipeline during usage of doing a quick check of the results using the streaming option, while doing the final high quality conversion using the single pass option.
 
 If you see the following sort of error:
 
