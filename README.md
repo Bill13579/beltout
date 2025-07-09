@@ -50,6 +50,21 @@ Join the Discord [https://discord.gg/MJzxacYQ](https://discord.gg/MJzxacYQ)!!!!!
 
 # Examples and Tips
 
+
+There are two modes during generation, "**High Quality (Single Pass)**" and "**Fast Preview (Streaming)**". The Single Pass option processes the entire file in one go, but is constrained to recordings of around 1:20 in length. The Streaming option processes the file in chunks instead, but can introduce discontinuities between those chunks, as not every single part of the original model was built with streaming in mind, and we carry that over here. The names are thus a suggestion for a pipeline during usage of doing a "quick preview" of the result using the streaming option, while doing the final high quality conversion using the single pass option.
+
+If you see the following sort of error:
+
+```
+line 70, in apply_rotary_emb
+return xq * cos + xq_r * sin, xk * cos + xk_r * sin
+RuntimeError: The size of tensor a (3972) must match the size of tensor b (2048) at non-singleton dimension 1
+```
+
+You have hit the maximum source audio input length for the single pass mode, and must switch to the streaming mode or otherwise cut the recording into pieces.
+
+\-\-\-
+
 The x-vectors, and the source audio recordings are both available on the repositories under the `examples` folder for reproduction.
 
 **[EDIT] Important note on generating x-vectors from sample target speaker voice recordings: Make sure to get as much as possible.** It is highly recommended you let the analyzer take a look at at least 2 minutes of the target speaker's voice. More can be incredibly helpful. If analyzing the entire file at once is not possible, you might need to let the analyzer operate in chunks and then average the vector out. In such a case, after dragging the audio file in, wait for the `Chunk Size (s)` slider to appear beneath the `Weight` slider, and then set it to a value other than `0`. A value of around 40 to 50 seconds works great in my experience.
