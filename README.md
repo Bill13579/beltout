@@ -10,6 +10,8 @@ They say timbre is the only thing you can't change about your voice... well, not
 
 **BeltOut** is **the world's first *pitch-perfect*, zero-shot, voice-to-voice timbre transfer model with *a generalized understanding of timbre and how it affects delivery of performances*.** It is based on ChatterboxVC.
 
+(The [Huggingface Repository](https://huggingface.co/Bill13579/beltout) and the [Github Repository](https://github.com/bill13579/beltout) is mirrored; examples and checkpoints should be downloaded from Huggingface)
+
 **[NEW] To first give an overhead view of what this model does:**
 
 First, it is important to establish a key idea about why your voice sounds the way it does. There are two parts to voice, the part you *can* control, and the part you *can't*.
@@ -173,5 +175,5 @@ And this just proves more that people doing training locally isn't just feasible
 
 So please, train a model, share it with all of us. Share it on as many places as you possibly can so that it will be there always. This is how local AI goes round, right? I'll be waiting, always, and hungry for more.
 
-\- Shiko
+\- Shiko Kudo
 
