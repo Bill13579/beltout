@@ -321,10 +321,7 @@ def main():
             waveform_16k_batch = resampler_16k(waveform_24k_batch)
             s3_tokens, _ = model.tokenizer(waveform_16k_batch)
             
-            x_vectors = torch.cat([
-                model.embed_ref_x_vector(wf_24k.unsqueeze(0), 24000, device=DEVICE)
-                for wf_24k in waveform_24k_batch
-            ], dim=0)
+            x_vectors = model.embed_ref_x_vector(waveform_24k_batch, 24000, device=DEVICE)
             speaker_embedding = model.flow.spk_embed_affine_layer(x_vectors)
 
             # Calculate MEL and CREPE interactions.
