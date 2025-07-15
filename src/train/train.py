@@ -187,7 +187,7 @@ def select_file_from_menu(folder_path: str, prefix: str) -> str | None:
         # Holding Enter during selection will quickly choose the latest checkpoints available for every model.
         def key(name):
             try:
-                return int(os.path.splitext(name)[0].replace(prefix, ""))
+                return int(os.path.splitext(name)[0].replace(prefix, "").split("_")[-1])
             except ValueError:
                 return 0
         matching_files.sort(reverse=True, key=key)
@@ -249,7 +249,9 @@ def main():
                                      flow_ckpt_path,
                                      mel2wav_ckpt_path,
                                      speaker_encoder_ckpt_path,
-                                     tokenizer_ckpt_path, device=DEVICE, eval=False)
+                                     tokenizer_ckpt_path, device=DEVICE, eval=True)
+    model.decoder.train()
+    model.pitchmvmt.train()
     print(f"Model loaded on {DEVICE}.")
 
     # --- Optimizer and Scheduler ---
@@ -321,7 +323,10 @@ def main():
             waveform_16k_batch = resampler_16k(waveform_24k_batch)
             s3_tokens, _ = model.tokenizer(waveform_16k_batch)
             
-            x_vectors = model.embed_ref_x_vector(waveform_24k_batch, 24000, device=DEVICE)
+            x_vectors = torch.cat([
+                model.embed_ref_x_vector(wf_24k.unsqueeze(0), 24000, device=DEVICE)
+                for wf_24k in waveform_24k_batch
+            ], dim=0)
             speaker_embedding = model.flow.spk_embed_affine_layer(x_vectors)
 
             # Calculate MEL and CREPE interactions.

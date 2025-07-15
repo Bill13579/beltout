@@ -41,7 +41,7 @@ def select_file_from_menu(folder_path: str, prefix: str) -> str | None:
         # Holding Enter during selection will quickly choose the latest checkpoints available for every model.
         def key(name):
             try:
-                return int(os.path.splitext(name)[0].replace(prefix, ""))
+                return int(os.path.splitext(name)[0].replace(prefix, "").split("_")[-1])
             except ValueError:
                 return 0
         matching_files.sort(reverse=True, key=key)
