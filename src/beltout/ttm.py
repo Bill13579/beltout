@@ -77,21 +77,24 @@ class BeltOutTTM(nn.Module):
     @classmethod
     def from_local(cls, decoder_ckpt_path, pitchmvmt_ckpt_path, encoder_ckpt_path, flow_ckpt_path, mel2wav_ckpt_path, speaker_encoder_ckpt_path, tokenizer_ckpt_path, device, eval=True) -> 'BeltOutTTM':
         pitchmvmt = PitchMvmtEncoder()
-        pitchmvmt.load_state_dict(
-            load_file(pitchmvmt_ckpt_path), strict=False
-        )
+        if pitchmvmt_ckpt_path is not None:
+            pitchmvmt.load_state_dict(
+                load_file(pitchmvmt_ckpt_path), strict=False
+            )
 
         # Grab bag of small layers that may or may not be used based on mode.
         spk_embed_affine_layer = nn.Linear(SPK_EMBED_DIM, COND_DIM)
         input_embedding = nn.Embedding(6561, 512)
         encoder_proj = nn.Linear(512, COND_DIM)
         flow = Flow(spk_embed_affine_layer=spk_embed_affine_layer, input_embedding=input_embedding, encoder_proj=encoder_proj)
-        flow.load_state_dict(
-            load_file(flow_ckpt_path), strict=False
-        )
-        flow.load_state_dict(
-            load_file(encoder_ckpt_path), strict=False
-        )
+        if flow_ckpt_path is not None:
+            flow.load_state_dict(
+                load_file(flow_ckpt_path), strict=False
+            )
+        if encoder_ckpt_path is not None:
+            flow.load_state_dict(
+                load_file(encoder_ckpt_path), strict=False
+            )
 
         f0_predictor = ConvRNNF0Predictor()
         mel2wav = HiFTGenerator(
@@ -102,9 +105,10 @@ class BeltOutTTM(nn.Module):
             source_resblock_dilation_sizes=[[1, 3, 5], [1, 3, 5], [1, 3, 5]],
             f0_predictor=f0_predictor,
         )
-        mel2wav.load_state_dict(
-            load_file(mel2wav_ckpt_path), strict=False
-        )
+        if mel2wav_ckpt_path is not None:
+            mel2wav.load_state_dict(
+                load_file(mel2wav_ckpt_path), strict=False
+            )
 
         estimator = ConditionalDecoder(
             in_channels=320,
@@ -123,14 +127,16 @@ class BeltOutTTM(nn.Module):
             cfm_params=CFM_PARAMS,
             estimator=estimator,
         )
-        decoder.load_state_dict(
-            load_file(decoder_ckpt_path), strict=False
-        )
+        if decoder_ckpt_path is not None:
+            decoder.load_state_dict(
+                load_file(decoder_ckpt_path), strict=False
+            )
 
         speaker_encoder = CAMPPlus()  # use default args
-        speaker_encoder.load_state_dict(
-            load_file(speaker_encoder_ckpt_path), strict=False
-        )
+        if speaker_encoder_ckpt_path is not None:
+            speaker_encoder.load_state_dict(
+                load_file(speaker_encoder_ckpt_path), strict=False
+            )
         
         encoder = UpsampleConformerEncoder(
             output_size=512,
@@ -148,14 +154,16 @@ class BeltOutTTM(nn.Module):
             use_cnn_module=False,
             macaron_style=False,
         )
-        encoder.load_state_dict(
-            load_file(encoder_ckpt_path), strict=False
-        )
+        if encoder_ckpt_path is not None:
+            encoder.load_state_dict(
+                load_file(encoder_ckpt_path), strict=False
+            )
 
         tokenizer = S3Tokenizer("speech_tokenizer_v2_25hz")
-        tokenizer.load_state_dict(
-            load_file(tokenizer_ckpt_path), strict=False
-        )
+        if tokenizer_ckpt_path is not None:
+            tokenizer.load_state_dict(
+                load_file(tokenizer_ckpt_path), strict=False
+            )
 
         model = cls(pitchmvmt, flow, mel2wav, decoder, speaker_encoder, encoder, tokenizer, device)
         if eval:
