@@ -211,7 +211,7 @@ def select_file_from_menu(folder_path: str, prefix: str) -> str | None:
 
 def select_checkpoint_from_menu(model_name: str) -> str:
     print("Searching inside path './checkpoints' for available checkpoints...")
-    ckpt_path = select_file_from_menu("./checkpoints", model_name + "_step_")
+    ckpt_path = select_file_from_menu("./checkpoints", model_name + "_")
     if ckpt_path is None:
         print("No checkpoints found for model '" + model_name + "'!")
         exit()
